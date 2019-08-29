@@ -4,12 +4,13 @@ class Project
     @title = title
     @backers = []
   end
+
   def add_backer(backer)
-    @backers << backer
-    project = self
-    backer.back_project(project)
-    if (backer.backed_projects.include?(self))
-    backer.back_project(self)
-    end
+    Backing.new(self, backer)
   end
+
+  def backers
+    Backing.all.select {|backing| backing.project == self}.map {|backing| backing.backer}
+  end
+
 end
